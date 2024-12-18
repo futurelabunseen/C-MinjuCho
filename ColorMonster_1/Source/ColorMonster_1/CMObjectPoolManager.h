@@ -72,7 +72,7 @@ template<typename T>
 void UCMObjectPoolManager::CreatePool(TSubclassOf<T> InObjectClass, int32 InPoolSize)
 {
 	// Check Reset Implemented
-	T* ObjForCheck = NewObject<T>(this, InObjectClass);
+	TObjectPtr<T> ObjForCheck = NewObject<T>(this, InObjectClass);
 	ICMPoolableInterface* InterfaceObj = Cast<ICMPoolableInterface>(ObjForCheck);
 	if (InterfaceObj == nullptr)
 	{
@@ -127,7 +127,7 @@ template<typename T>
 void UCMObjectPoolManager::ReturnPooledObject(TObjectPtr<T> InObject)
 {
 	// Check Hide Implemented
-	T* ObjForCheck = NewObject<T>(this, T::StaticClass());
+	TObjectPtr<T> ObjForCheck = NewObject<T>(this, T::StaticClass());
 	ICMPoolableInterface* InterfaceObj = Cast<ICMPoolableInterface>(ObjForCheck);
 	if (InterfaceObj == nullptr)
 	{
@@ -159,7 +159,7 @@ template<typename T>
 void UCMObjectPoolManager::ExpandPool(FGenericObjectPool* InPool, TSubclassOf<T> InObjectClass, int32 InPoolSize)
 {
 	// Check Hide Implemented
-	T* ObjForCheck = NewObject<T>(this, InObjectClass);
+	TObjectPtr<T> ObjForCheck = NewObject<T>(this, InObjectClass);
 	ICMPoolableInterface* InterfaceObj = Cast<ICMPoolableInterface>(ObjForCheck);
 	if (InterfaceObj == nullptr)
 	{
@@ -169,15 +169,15 @@ void UCMObjectPoolManager::ExpandPool(FGenericObjectPool* InPool, TSubclassOf<T>
 
 	for (int32 i = 0; i < InPoolSize; ++i)
 	{
-		T* TempObject = nullptr;
+		TObjectPtr<T> TempObject = nullptr;
 		/*if (InObjectClass->IsChildOf(UUserWidget::StaticClass()))
 		{
-			T* NewWidget = Cast<T>(CreateWidget(this, InObjectClass));
+			TObjectPtr<T> NewWidget = Cast<T>(CreateWidget(this, InObjectClass));
 			TempObject = NewWidget;
 		}*/
 		if (InObjectClass->IsChildOf(AActor::StaticClass()))
 		{
-			T* NewActor = Cast<T>(GetWorld()->SpawnActor<AActor>(InObjectClass));
+			TObjectPtr<T> NewActor = Cast<T>(GetWorld()->SpawnActor<AActor>(InObjectClass));
 			TempObject = NewActor;
 		}
 		else
